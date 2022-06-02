@@ -1,0 +1,53 @@
+{
+    "name": "@atomico/postcss-imported",
+    "version": "1.4.3",
+    "description": "Transform a simple object into tokens for webcomponents or html",
+    "main": "./dist/postcss-imported.cjs",
+    "module": "./dist/postcss-imported.mjs",
+    "types": "./types/postcss-imported.d.ts",
+    "exports": {
+        ".": {
+            "require": "./dist/postcss-imported.cjs",
+            "import": "./dist/postcss-imported.mjs"
+        }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "test": "uvu -r tsm tests",
+        "types": "tsc",
+        "build": "rollup -c",
+        "prepublishOnly": "npm run test && npm run types && npm run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/atomicojs/postcss-imported.git"
+    },
+    "author": "UpperCod",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/atomicojs/postcss-imported/issues"
+    },
+    "homepage": "https://github.com/atomicojs/postcss-imported#readme",
+    "devDependencies": {
+        "@types/js-yaml": "^4.0.5",
+        "@types/node": "^17.0.30",
+        "esbuild": "^0.14.38",
+        "postcss": "^8.4.12",
+        "rollup": "^2.71.0",
+        "rollup-plugin-esbuild": "^4.9.1",
+        "tsm": "^2.2.1",
+        "typescript": "^4.6.3",
+        "uvu": "^0.5.3",
+        "js-yaml": "latest"
+    },
+    "peerDependencies": {
+        "js-yaml": "latest",
+        "postcss": "latest"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "singleQuote": false
+    }
+}

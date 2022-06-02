@@ -1,14 +1,14 @@
 import esbuild from "rollup-plugin-esbuild";
 
 export default {
-    input: ["./src/postcss-tokens.ts"],
+    input: ["./src/postcss-imported.ts"],
     output: [
         {
-            file: "dist/postcss-tokens.cjs",
+            file: "dist/postcss-imported.cjs",
             format: "cjs",
         },
         {
-            file: "dist/postcss-tokens.mjs",
+            file: "dist/postcss-imported.mjs",
             format: "esm",
         },
     ],

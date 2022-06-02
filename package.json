@@ -43,7 +43,6 @@
         "js-yaml": "latest"
     },
     "peerDependencies": {
-        "js-yaml": "latest",
         "postcss": "latest"
     },
     "prettier": {

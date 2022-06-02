@@ -1,7 +1,7 @@
 {
     "name": "@atomico/postcss-imported",
-    "version": "1.4.3",
-    "description": "Transform a simple object into tokens for webcomponents or html",
+    "version": "1.0.0",
+    "description": "This plugin allows to know the local imports, in order to be observed by third-party tools",
     "main": "./dist/postcss-imported.cjs",
     "module": "./dist/postcss-imported.mjs",
     "types": "./types/postcss-imported.d.ts",
@@ -18,7 +18,7 @@
         "test": "uvu -r tsm tests",
         "types": "tsc",
         "build": "rollup -c",
-        "prepublishOnly": "npm run test && npm run types && npm run build"
+        "prepublishOnly": "npm run types && npm run build"
     },
     "repository": {
         "type": "git",

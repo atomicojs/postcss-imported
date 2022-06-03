@@ -1,6 +1,6 @@
 import path from "path";
 import { readFile } from "fs/promises";
-import postcss, { PluginCreator, AtRule } from "postcss";
+import postcss, { PluginCreator, AtRule, AcceptedPlugin } from "postcss";
 
 interface Report {
     [file: string]: string[];
@@ -10,6 +10,7 @@ interface Options {
     report: Report;
     atrule?: string;
     map?: (atRule: AtRule) => string | undefined;
+    plugins?: AcceptedPlugin[];
 }
 
 const normalize = (src: string) =>
@@ -28,6 +29,7 @@ const postcssImported: PluginCreator<Options> = ({
             return src;
         }
     },
+    plugins = [],
 }) => ({
     postcssPlugin: "@atomico/postcss-imported",
     AtRule: {
@@ -50,12 +52,12 @@ const postcssImported: PluginCreator<Options> = ({
                     report[href].push(source);
                 }
 
-                await postcss([postcssImported({ report })]).process(
-                    await readFile(url, "utf8"),
-                    {
-                        from: href,
-                    }
-                );
+                await postcss([
+                    postcssImported({ report }),
+                    ...plugins,
+                ]).process(await readFile(url, "utf8"), {
+                    from: href,
+                });
             }
         },
     },

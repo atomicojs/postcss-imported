@@ -52,12 +52,14 @@ const postcssImported: PluginCreator<Options> = ({
                     report[href].push(source);
                 }
 
-                await postcss([
-                    postcssImported({ report }),
-                    ...plugins,
-                ]).process(await readFile(url, "utf8"), {
-                    from: href,
-                });
+                if (atrule === "import") {
+                    await postcss([
+                        postcssImported({ report }),
+                        ...plugins,
+                    ]).process(await readFile(url, "utf8"), {
+                        from: href,
+                    });
+                }
             }
         },
     },

@@ -1,6 +1,6 @@
 {
     "name": "@atomico/postcss-imported",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "This plugin allows to know the local imports, in order to be observed by third-party tools",
     "main": "./dist/postcss-imported.cjs",
     "module": "./dist/postcss-imported.mjs",

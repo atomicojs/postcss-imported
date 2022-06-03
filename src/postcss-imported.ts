@@ -18,7 +18,7 @@ const normalize = (src: string) =>
         .replace(/\\/g, "/")
         .replace(/file:\/(\w)/, "file:///$1");
 
-const postcssTokens: PluginCreator<Options> = ({
+const postcssImported: PluginCreator<Options> = ({
     report = {},
     atrule = "import",
     map = (atRule: AtRule): string | undefined => {
@@ -50,7 +50,7 @@ const postcssTokens: PluginCreator<Options> = ({
                     report[href].push(source);
                 }
 
-                await postcss([postcssTokens({ report })]).process(
+                await postcss([postcssImported({ report })]).process(
                     await readFile(url, "utf8"),
                     {
                         from: href,
@@ -61,6 +61,6 @@ const postcssTokens: PluginCreator<Options> = ({
     },
 });
 
-postcssTokens.postcss = true;
+postcssImported.postcss = true;
 
-export default postcssTokens;
+export default postcssImported;

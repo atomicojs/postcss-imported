@@ -7,5 +7,5 @@ interface Options {
     atrule?: string;
     map?: (atRule: AtRule) => string | undefined;
 }
-declare const postcssTokens: PluginCreator<Options>;
-export default postcssTokens;
+declare const postcssImported: PluginCreator<Options>;
+export default postcssImported;

@@ -6,14 +6,20 @@ interface Report {
     [file: string]: string[];
 }
 
+interface Options {
+    report: Report;
+    atrule?: string;
+    map?: (atRule: AtRule) => string | undefined;
+}
+
 const normalize = (src: string) =>
     path
         .normalize(src)
         .replace(/\\/g, "/")
         .replace(/file:\/(\w)/, "file:///$1");
 
-const postcssTokens: PluginCreator<Report> = (
-    report: Report = {},
+const postcssTokens: PluginCreator<Options> = ({
+    report = {},
     atrule = "import",
     map = (atRule: AtRule): string | undefined => {
         const test = atRule.params.match(/("|')(\.[^"']+)("|')/);
@@ -21,8 +27,8 @@ const postcssTokens: PluginCreator<Report> = (
             const [, , src] = test;
             return src;
         }
-    }
-) => ({
+    },
+}) => ({
     postcssPlugin: "@atomico/postcss-imported",
     AtRule: {
         [atrule]: async (atRule) => {
@@ -44,7 +50,7 @@ const postcssTokens: PluginCreator<Report> = (
                     report[href].push(source);
                 }
 
-                await postcss([postcssTokens(report)]).process(
+                await postcss([postcssTokens({ report })]).process(
                     await readFile(url, "utf8"),
                     {
                         from: href,

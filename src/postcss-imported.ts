@@ -1,4 +1,3 @@
-import path from "path";
 import { readFile } from "fs/promises";
 import postcss, { PluginCreator, AtRule, AcceptedPlugin } from "postcss";
 
@@ -14,10 +13,7 @@ interface Options {
 }
 
 const normalize = (src: string) =>
-    path
-        .normalize(src)
-        .replace(/\\/g, "/")
-        .replace(/file:\/(\w)/, "file:///$1");
+    src.replace(/\\/g, "/").replace(/^file:\/(\w)/, "file:///$1");
 
 const postcssImported: PluginCreator<Options> = ({
     report = {},

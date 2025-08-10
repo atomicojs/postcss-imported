@@ -1,8 +1,7 @@
-import path from 'path';
 import { readFile } from 'fs/promises';
 import postcss from 'postcss';
 
-const normalize = (src) => path.normalize(src).replace(/\\/g, "/").replace(/file:\/(\w)/, "file:///$1");
+const normalize = (src) => src.replace(/\\/g, "/").replace(/^file:\/(\w)/, "file:///$1");
 const postcssImported = ({
   report = {},
   atrule = "import",
@@ -12,7 +11,8 @@ const postcssImported = ({
       const [, , src] = test;
       return src;
     }
-  }
+  },
+  plugins = []
 }) => ({
   postcssPlugin: "@atomico/postcss-imported",
   AtRule: {
@@ -27,9 +27,14 @@ const postcssImported = ({
         if (!report[href].includes(source)) {
           report[href].push(source);
         }
-        await postcss([postcssImported({ report })]).process(await readFile(url, "utf8"), {
-          from: href
-        });
+        if (atrule === "import") {
+          await postcss([
+            postcssImported({ report }),
+            ...plugins
+          ]).process(await readFile(url, "utf8"), {
+            from: href
+          });
+        }
       }
     }
   }

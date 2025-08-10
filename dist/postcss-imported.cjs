@@ -1,15 +1,13 @@
 'use strict';
 
-var path = require('path');
 var promises = require('fs/promises');
 var postcss = require('postcss');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
 var postcss__default = /*#__PURE__*/_interopDefaultLegacy(postcss);
 
-const normalize = (src) => path__default["default"].normalize(src).replace(/\\/g, "/").replace(/file:\/(\w)/, "file:///$1");
+const normalize = (src) => src.replace(/\\/g, "/").replace(/^file:\/(\w)/, "file:///$1");
 const postcssImported = ({
   report = {},
   atrule = "import",
@@ -19,7 +17,8 @@ const postcssImported = ({
       const [, , src] = test;
       return src;
     }
-  }
+  },
+  plugins = []
 }) => ({
   postcssPlugin: "@atomico/postcss-imported",
   AtRule: {
@@ -34,9 +33,14 @@ const postcssImported = ({
         if (!report[href].includes(source)) {
           report[href].push(source);
         }
-        await postcss__default["default"]([postcssImported({ report })]).process(await promises.readFile(url, "utf8"), {
-          from: href
-        });
+        if (atrule === "import") {
+          await postcss__default["default"]([
+            postcssImported({ report }),
+            ...plugins
+          ]).process(await promises.readFile(url, "utf8"), {
+            from: href
+          });
+        }
       }
     }
   }
